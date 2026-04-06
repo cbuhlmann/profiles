@@ -59,6 +59,14 @@ composer i
 ./dockerdo artisan migrate
 ```
 
+7. Facultatif : insérer des données de démonstration dans la base de données :
+
+```bash
+./dockerdo artisan db:seed --class=InitDbSeeder
+```
+
+Cette commande permet de créer automatiquement plusieurs profils de test.
+
 ## Explication du code
 
 Des codes ont été utilisés pour représenter les différents statuts des profils (`inactif`, `en attente`, `actif`) afin de faciliter l’évolution du projet.

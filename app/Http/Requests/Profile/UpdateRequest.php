@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
         return [
             'firstName' => ['string', 'max:255'],
             'lastName'  => ['string', 'max:255'],
-            'image'     => ['string', 'max:255'],
+            'image'     => ['file', 'mimes:jpg,jpeg,png'],
             'status'    => ['integer', Rule::in(array_keys(Profile::STATUSES))],
         ];
     }

@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
         return [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName'  => ['required', 'string', 'max:255'],
-            'image'     => ['nullable', 'string', 'max:255'],
+            'image'     => ['nullable', 'file', 'mimes:jpg,jpeg,png'],
             'status'    => ['required', 'integer', Rule::in(array_keys(Profile::STATUSES))],
         ];
     }

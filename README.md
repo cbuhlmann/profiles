@@ -1,66 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# README - Projet Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Prérequis
 
-## About Laravel
+Avant de lancer le projet, assurez-vous d'avoir installé les outils suivants sur votre machine :
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Docker
+* Composer
+* Node.js et npm
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Script `dockerdo`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Le projet contient un script `dockerdo` qui sert de raccourci pour exécuter les commandes Laravel Sail à l’intérieur des conteneurs Docker.
 
-## Learning Laravel
+```bash
+#!/bin/bash
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Exécute la commande spécifiée avec Laravel Sail
+./vendor/bin/sail "$@"
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Toutes les commandes Laravel du projet doivent être exécutées via ce script.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Les étapes d’installation et de démarrage du projet sont décrites juste en dessous.
 
-## Laravel Sponsors
+1. Copier le fichier d’environnement :
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+cp .env.example .env
+```
 
-### Premium Partners
+2. Installer les dépendances PHP du projet :
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+composer i
+```
 
-## Contributing
+3. Construire les conteneurs Docker :
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+./dockerdo build
+```
 
-## Code of Conduct
+4. Démarrer les conteneurs en arrière-plan :
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+./dockerdo up -d
+```
 
-## Security Vulnerabilities
+5. Générer la clé de l’application Laravel :
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+./dockerdo artisan key:generate
+```
 
-## License
+6. Lancer les migrations de la base de données :
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+./dockerdo artisan migrate
+```
+
+## Explication du code
+
+Des codes ont été utilisés pour représenter les différents statuts des profils (`inactif`, `en attente`, `actif`) afin de faciliter l’évolution du projet.
+
+Cette approche permet de manipuler des valeurs stables dans le code, par exemple :
+
+* `INACTIVE`
+* `WAITING`
+* `ACTIVE`
+
+Les labels affichés à l’utilisateur peuvent ensuite être modifiés ou traduits facilement sans impacter la logique métier.
+
+Par exemple, `WAITING` peut être affiché comme « En attente » en français, puis comme « Waiting » en anglais.
+
+Cette solution est particulièrement utile dans le cadre du test demandé, où les profils possèdent plusieurs statuts différents.
+
+## Collection Postman
+
+Une collection Postman est disponible pour tester les endpoints de l’API :
+
+* [https://web.postman.co/workspace/Cyril-Buhlmann~5fea45cb-23ba-44ac-8bd1-661a7bf3fd48/collection/14349537-861c68d4-f29b-4800-a165-ac36a7678f91?action=share&source=copy-link&creator=14349537](https://web.postman.co/workspace/Cyril-Buhlmann~5fea45cb-23ba-44ac-8bd1-661a7bf3fd48/collection/14349537-861c68d4-f29b-4800-a165-ac36a7678f91?action=share&source=copy-link&creator=14349537)

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Exécute la commande spécifiée avec Laravel Sail
+./vendor/bin/sail "$@"
